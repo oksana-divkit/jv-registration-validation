@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import core.basesyntax.db.Storage;
 import core.basesyntax.exception.InvalidUserAgeException;
 import core.basesyntax.exception.InvalidUserAlreadyExistsException;
+import core.basesyntax.exception.InvalidUserException;
 import core.basesyntax.exception.InvalidUserLoginException;
 import core.basesyntax.exception.InvalidUserPasswordException;
 import core.basesyntax.model.User;
@@ -40,6 +41,13 @@ class RegistrationServiceImplTest {
         user2.setAge(36);
         user2.setPassword("12345678");
         assertEquals(user2, registrationService.register(user2));
+    }
+
+    @Test
+    void register_nullUser_notOk() {
+        assertThrows(InvalidUserException.class,
+                () -> registrationService.register(null)
+        );
     }
 
     @Test
