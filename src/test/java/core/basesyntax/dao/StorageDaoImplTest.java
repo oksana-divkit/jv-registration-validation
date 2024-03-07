@@ -5,21 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import core.basesyntax.model.User;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class StorageDaoImplTest {
-    private static StorageDao storage;
-    private static User user;
-    private static User user2;
-
-    @BeforeAll
-    public static void setUp() {
-        storage = new StorageDaoImpl();
-        user = new User();
-        user2 = new User();
-    }
+    private static StorageDao storage = new StorageDaoImpl();
+    private static User user = new User();
+    private static User user2 = new User();
 
     @BeforeEach
     public void each() {

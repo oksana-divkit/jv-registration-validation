@@ -1,9 +1,9 @@
 package core.basesyntax.service;
 
 import core.basesyntax.exception.InvalidUserAgeException;
-import core.basesyntax.exception.InvalidUserException;
 import core.basesyntax.exception.InvalidUserLoginException;
 import core.basesyntax.exception.InvalidUserPasswordException;
+import core.basesyntax.exception.UserValidationException;
 import core.basesyntax.model.User;
 
 public class UserValidatorImpl implements UserValidator {
@@ -14,7 +14,7 @@ public class UserValidatorImpl implements UserValidator {
     @Override
     public void validate(User user) {
         if (user == null) {
-            throw new InvalidUserException("Invalid user, can't be null");
+            throw new UserValidationException("Invalid user, can't be null");
         }
         validateLogin(user.getLogin());
         validatePassword(user.getPassword());
