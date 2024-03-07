@@ -1,4 +1,4 @@
-package core.basesyntax.service;
+package core.basesyntax;
 
 public class Constant {
     public static final String VALID_LOGIN = "123456";

@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import core.basesyntax.Constant;
 import core.basesyntax.model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,14 +19,14 @@ class StorageDaoImplTest {
         storage.clear();
 
         validUser.setId(null);
-        validUser.setLogin("123456");
-        validUser.setAge(18);
-        validUser.setPassword("123456");
+        validUser.setLogin(Constant.VALID_LOGIN);
+        validUser.setAge(Constant.VALID_AGE);
+        validUser.setPassword(Constant.VALID_PASSWORD);
 
         validUser2.setId(null);
-        validUser2.setLogin("12345678");
-        validUser2.setAge(36);
-        validUser2.setPassword("12345678");
+        validUser2.setLogin(Constant.VALID_LOGIN2);
+        validUser2.setAge(Constant.VALID_AGE2);
+        validUser2.setPassword(Constant.VALID_PASSWORD2);
     }
 
     @Test
