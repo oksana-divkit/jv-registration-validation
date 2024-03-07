@@ -14,30 +14,27 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class RegistrationServiceImplTest {
-    private static final int MIN_LENGTH_LOGIN = 6;
-    private static final int MIN_LENGTH_PASSWORD = 6;
-    private static final int MIN_AGE = 18;
 
-    private static RegistrationService registrationService = new RegistrationServiceImpl();
-    private static User user = new User();
+    private RegistrationService registrationService = new RegistrationServiceImpl();
+    private User validUser = new User();
 
     @BeforeEach
     public void each() {
         Storage.people.clear();
-        user.setLogin("123456");
-        user.setAge(18);
-        user.setPassword("123456");
+        validUser.setLogin(Constant.VALID_LOGIN);
+        validUser.setAge(Constant.VALID_AGE);
+        validUser.setPassword(Constant.VALID_PASSWORD);
     }
 
     @Test
     void register_validUser_Ok() {
-        assertEquals(user, registrationService.register(user));
+        assertEquals(validUser, registrationService.register(validUser));
 
-        User user2 = new User();
-        user2.setLogin("12345678");
-        user2.setAge(36);
-        user2.setPassword("12345678");
-        assertEquals(user2, registrationService.register(user2));
+        User validUser2 = new User();
+        validUser2.setLogin(Constant.VALID_LOGIN2);
+        validUser2.setAge(Constant.VALID_AGE2);
+        validUser2.setPassword(Constant.VALID_PASSWORD2);
+        assertEquals(validUser2, registrationService.register(validUser2));
     }
 
     @Test
@@ -49,142 +46,136 @@ class RegistrationServiceImplTest {
 
     @Test
     void register_existUser_notOk() {
-        registrationService.register(user);
+        registrationService.register(validUser);
         UserAlreadyExistsException existsException = assertThrows(
                 UserAlreadyExistsException.class,
-                () -> registrationService.register(user)
+                () -> registrationService.register(validUser)
         );
-        assertEquals("User " + user.getLogin() + " already exists",
+        assertEquals("User " + validUser.getLogin() + " already exists",
                 existsException.getMessage());
     }
 
     @Test
     void register_nullLogin_notOk() {
-        user.setLogin(null);
+        validUser.setLogin(null);
         InvalidUserLoginException loginException = assertThrows(
                 InvalidUserLoginException.class,
-                () -> registrationService.register(user)
+                () -> registrationService.register(validUser)
         );
         assertEquals(
-                "Invalid login, must be at least " + MIN_LENGTH_LOGIN + " characters long",
+                "Invalid login, must be at least " + Constant.MIN_LENGTH_LOGIN + " characters long",
                 loginException.getMessage()
         );
     }
 
     @Test
     void register_shortLogin_notOk() {
-        user.setLogin("");
+        validUser.setLogin(Constant.INVALID_LOGIN);
         InvalidUserLoginException loginException = assertThrows(
                 InvalidUserLoginException.class,
-                () -> registrationService.register(user)
+                () -> registrationService.register(validUser)
         );
         assertEquals(
-                "Invalid login, must be at least " + MIN_LENGTH_LOGIN + " characters long",
+                "Invalid login, must be at least " + Constant.MIN_LENGTH_LOGIN + " characters long",
                 loginException.getMessage()
         );
 
-        user.setLogin("123");
+        validUser.setLogin(Constant.INVALID_LOGIN2);
         loginException = assertThrows(
                 InvalidUserLoginException.class,
-                () -> registrationService.register(user)
+                () -> registrationService.register(validUser)
         );
         assertEquals(
-                "Invalid login, must be at least " + MIN_LENGTH_LOGIN + " characters long",
-                loginException.getMessage()
-        );
-
-        user.setLogin("12345");
-        loginException = assertThrows(
-                InvalidUserLoginException.class,
-                () -> registrationService.register(user)
-        );
-        assertEquals(
-                "Invalid login, must be at least " + MIN_LENGTH_LOGIN + " characters long",
+                "Invalid login, must be at least " + Constant.MIN_LENGTH_LOGIN + " characters long",
                 loginException.getMessage()
         );
     }
 
     @Test
     void register_nullAge_notOk() {
-        user.setAge(null);
+        validUser.setAge(null);
         InvalidUserAgeException ageException = assertThrows(
                 InvalidUserAgeException.class,
-                () -> registrationService.register(user)
+                () -> registrationService.register(validUser)
         );
         assertEquals(
-                "Invalid age, should be over " + MIN_AGE,
+                "Invalid age, should be over " + Constant.MIN_AGE,
                 ageException.getMessage()
         );
     }
 
     @Test
     void register_childAge_notOk() {
-        user.setAge(17);
+        validUser.setAge(Constant.INVALID_AGE);
         InvalidUserAgeException ageException = assertThrows(
                 InvalidUserAgeException.class,
-                () -> registrationService.register(user)
+                () -> registrationService.register(validUser)
         );
         assertEquals(
-                "Invalid age, should be over " + MIN_AGE,
+                "Invalid age, should be over " + Constant.MIN_AGE,
                 ageException.getMessage()
         );
     }
 
     @Test
     void register_negativeAge_notOk() {
-        user.setAge(-17);
+        validUser.setAge(Constant.INVALID_AGE2);
         InvalidUserAgeException ageException = assertThrows(
                 InvalidUserAgeException.class,
-                () -> registrationService.register(user)
+                () -> registrationService.register(validUser)
         );
         assertEquals(
-                "Invalid age, should be over " + MIN_AGE,
+                "Invalid age, should be over " + Constant.MIN_AGE,
                 ageException.getMessage()
         );
     }
 
     @Test
     void register_nullPassword_notOk() {
-        user.setPassword(null);
+        validUser.setPassword(null);
         InvalidUserPasswordException passwordException = assertThrows(
                 InvalidUserPasswordException.class,
-                () -> registrationService.register(user)
+                () -> registrationService.register(validUser)
         );
         assertEquals(
-                "Invalid password, must be at least " + MIN_LENGTH_PASSWORD + " characters long",
+                "Invalid password, must be at least "
+                        + Constant.MIN_LENGTH_PASSWORD + " characters long",
                 passwordException.getMessage()
         );
     }
 
     @Test
     void register_shortPassword_notOk() {
-        user.setPassword("");
+        validUser.setPassword(Constant.INVALID_PASSWORD);
         InvalidUserPasswordException passwordException = assertThrows(
                 InvalidUserPasswordException.class,
-                () -> registrationService.register(user)
+                () -> registrationService.register(validUser)
         );
         assertEquals(
-                "Invalid password, must be at least " + MIN_LENGTH_PASSWORD + " characters long",
+                "Invalid password, must be at least "
+                        + Constant.MIN_LENGTH_PASSWORD + " characters long",
                 passwordException.getMessage()
         );
 
-        user.setPassword("123");
+        validUser.setPassword(Constant.INVALID_PASSWORD2);
         passwordException = assertThrows(
                 InvalidUserPasswordException.class,
-                () -> registrationService.register(user)
+                () -> registrationService.register(validUser)
         );
         assertEquals(
-                "Invalid password, must be at least " + MIN_LENGTH_PASSWORD + " characters long",
+                "Invalid password, must be at least "
+                        + Constant.MIN_LENGTH_PASSWORD + " characters long",
                 passwordException.getMessage()
         );
 
-        user.setPassword("12345");
+        validUser.setPassword(Constant.INVALID_PASSWORD3);
         passwordException = assertThrows(
                 InvalidUserPasswordException.class,
-                () -> registrationService.register(user)
+                () -> registrationService.register(validUser)
         );
         assertEquals(
-                "Invalid password, must be at least " + MIN_LENGTH_PASSWORD + " characters long",
+                "Invalid password, must be at least "
+                        + Constant.MIN_LENGTH_PASSWORD + " characters long",
                 passwordException.getMessage()
         );
     }

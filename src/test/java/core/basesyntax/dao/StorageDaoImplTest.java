@@ -9,37 +9,37 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class StorageDaoImplTest {
-    private static StorageDao storage = new StorageDaoImpl();
-    private static User user = new User();
-    private static User user2 = new User();
+    private StorageDao storage = new StorageDaoImpl();
+    private User validUser = new User();
+    private User validUser2 = new User();
 
     @BeforeEach
     public void each() {
         storage.clear();
 
-        user.setId(null);
-        user.setLogin("123456");
-        user.setAge(18);
-        user.setPassword("123456");
+        validUser.setId(null);
+        validUser.setLogin("123456");
+        validUser.setAge(18);
+        validUser.setPassword("123456");
 
-        user2.setId(null);
-        user2.setLogin("12345678");
-        user2.setAge(36);
-        user2.setPassword("12345678");
+        validUser2.setId(null);
+        validUser2.setLogin("12345678");
+        validUser2.setAge(36);
+        validUser2.setPassword("12345678");
     }
 
     @Test
     void add_returnUser_Ok() {
-        assertEquals(user, storage.add(user));
-        assertEquals(user2, storage.add(user2));
+        assertEquals(validUser, storage.add(validUser));
+        assertEquals(validUser2, storage.add(validUser2));
     }
 
     @Test
     void add_setId_Ok() {
-        storage.add(user);
-        assertEquals(1, user.getId());
-        storage.add(user2);
-        assertEquals(2, user2.getId());
+        storage.add(validUser);
+        assertEquals(1, validUser.getId());
+        storage.add(validUser2);
+        assertEquals(2, validUser2.getId());
     }
 
     @Test
@@ -49,16 +49,16 @@ class StorageDaoImplTest {
 
     @Test
     void get_existUser_Ok() {
-        storage.add(user);
-        storage.add(user2);
-        assertEquals(user, storage.get(user.getLogin()));
-        assertEquals(user2, storage.get(user2.getLogin()));
+        storage.add(validUser);
+        storage.add(validUser2);
+        assertEquals(validUser, storage.get(validUser.getLogin()));
+        assertEquals(validUser2, storage.get(validUser2.getLogin()));
     }
 
     @Test
     void get_nonExistUser_null() {
-        assertNull(storage.get(user.getLogin()));
-        storage.add(user);
-        assertNull(storage.get(user2.getLogin()));
+        assertNull(storage.get(validUser.getLogin()));
+        storage.add(validUser);
+        assertNull(storage.get(validUser2.getLogin()));
     }
 }
