@@ -15,13 +15,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class RegistrationServiceImplTest {
-
     private RegistrationService registrationService = new RegistrationServiceImpl();
-    private User validUser = new User();
+    private User validUser;
 
     @BeforeEach
     public void each() {
         Storage.people.clear();
+        validUser = new User();
         validUser.setLogin(Constant.VALID_LOGIN);
         validUser.setAge(Constant.VALID_AGE);
         validUser.setPassword(Constant.VALID_PASSWORD);
@@ -47,7 +47,7 @@ class RegistrationServiceImplTest {
 
     @Test
     void register_existUser_notOk() {
-        registrationService.register(validUser);
+        Storage.people.add(validUser);
         UserAlreadyExistsException existsException = assertThrows(
                 UserAlreadyExistsException.class,
                 () -> registrationService.register(validUser)
